@@ -26,6 +26,18 @@ const config = {
         blue :{
           1 :"#0E78f9"
         },
+        sky :{
+          1:"#C9DDFF"
+        },
+        orange :{
+          1:"#FF742E"
+        },
+        purple: {
+          1: '#830EF9',
+        },
+        yellow: {
+          1: '#F9A90E',
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -64,6 +76,9 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage:{
+        hero : "url('/images/hero-background.png')",
       },
       keyframes: {
         "accordion-down": {
