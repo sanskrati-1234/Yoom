@@ -4,6 +4,8 @@ import HomeCard from "./HomeCard";
 import { useRouter } from "next/navigation";
 import MeetingModal from "./MeetingModal";
 import { useToast } from "@/components/ui/use-toast";
+import { useUser } from "@clerk/nextjs";
+import { Call, useStreamVideoClient } from "@stream-io/video-react-sdk";
 
 const MeetingTypeListing = () => {
   const router = useRouter();
@@ -12,14 +14,56 @@ const MeetingTypeListing = () => {
   >(undefined);
   const { toast } = useToast();
   //const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`;
+  const { user } = useUser();
+  const client = useStreamVideoClient();
+  const [values, setValues] = useState({
+    dateTime: new Date(),
+    description: "",
+    link: "",
+  });
+  const [callDetails, setCallDetails] = useState<Call>();
 
-  const createMeeting = () => {
-    console.log("createMeeting");
+  const createMeeting = async () => {
+    if (!user || !client) return;
+    try {
+      if (!values.dateTime) {
+        toast({
+          title: "Please select date and time",
+        });
+        return;
+      }
+      const id = crypto.randomUUID();
+      const call = client.call("default", id);
+      if (!call) throw new Error("Failed to create call");
+      const startAt =
+        values.dateTime.toISOString() || new Date(Date.now()).toISOString();
+      const description = values.description || "Instant Meeting";
+      await call.getOrCreate({
+        data: {
+          starts_at: startAt,
+          custom: {
+            description,
+          },
+        },
+      });
+      setCallDetails(call);
+      if (!values.description) {
+        router.push(`/meeting/${call.id}`);
+      }
+      toast({
+        title: "Meeting created",
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Cannot schedule meeting",
+      });
+    }
   };
 
   return (
     <>
-      <div className="flex justify-between w-full flex-wrap gap-5">
+      <div className="meeting-list-wrapper">
         <HomeCard
           img="/icons/add-meeting.svg"
           title="New Meeting"
