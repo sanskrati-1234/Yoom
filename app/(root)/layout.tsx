@@ -1,12 +1,12 @@
-import React, { ReactElement } from 'react'
+import { StreamVideoProvider } from "@/providers/StreamClientProvider";
+import React, { ReactElement } from "react";
 
-function RootLayout({children}:{children:ReactElement}) {
+function RootLayout({ children }: { children: ReactElement }) {
   return (
-
     <main>
-        {children}
+      <StreamVideoProvider> {children}</StreamVideoProvider>
     </main>
-  )
+  );
 }
 
 export default RootLayout;
