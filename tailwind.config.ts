@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -19,24 +19,26 @@ const config = {
     },
     extend: {
       colors: {
-        dark :{
-          1:"#1C1F2E",
-          2:"#161925",
+        dark: {
+          1: "#1C1F2E",
+          2: "#161925",
+          3: "#252A41",
+          4: "#1E2757",
         },
-        blue :{
-          1 :"#0E78f9"
+        blue: {
+          1: "#0E78f9",
         },
-        sky :{
-          1:"#C9DDFF"
+        sky: {
+          1: "#C9DDFF",
         },
-        orange :{
-          1:"#FF742E"
+        orange: {
+          1: "#FF742E",
         },
         purple: {
-          1: '#830EF9',
+          1: "#830EF9",
         },
         yellow: {
-          1: '#F9A90E',
+          1: "#F9A90E",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -77,8 +79,8 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      backgroundImage:{
-        hero : "url('/images/hero-background.png')",
+      backgroundImage: {
+        hero: "url('/images/hero-background.png')",
       },
       keyframes: {
         "accordion-down": {
@@ -97,6 +99,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

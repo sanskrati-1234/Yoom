@@ -1,6 +1,13 @@
 import { StreamVideoProvider } from "@/providers/StreamClientProvider";
+import { Metadata } from "next";
 import React, { ReactElement } from "react";
-
+export const metadata: Metadata = {
+  title: "Mansii",
+  description: "Video Calling App",
+  icons: {
+    icon: "/icons/logo.svg",
+  },
+};
 function RootLayout({ children }: { children: ReactElement }) {
   return (
     <main>
