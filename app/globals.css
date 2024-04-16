@@ -129,3 +129,6 @@
   gap: 1rem;
   grid-template-columns: repeat(auto-fill,minmax(270px,1fr));
 }
+.cl-userButtonPopoverFooter{
+  display: none
+}
