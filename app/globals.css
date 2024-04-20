@@ -90,9 +90,9 @@
   display: none !important;
 }
 
-.cl-userButtonPopoverActionButtonIcon {
+/* .cl-userButtonPopoverActionButtonIcon {
   color: white;
-}
+} */
 
 .glassmorphism {
   background: rgba(255, 255, 255, 0.25);
@@ -117,12 +117,12 @@
   border: 3px solid #565761;
 }
 
-.cl-internal-wkkub3 {
+/* .cl-internal-wkkub3 {
   color: white;
-}
-.cl-userButtonPopoverActionButton {
+} */
+/* .cl-userButtonPopoverActionButton {
   color: white;
-}
+} */
 .meeting-list-wrapper{
   width: 100%;
   display: grid;

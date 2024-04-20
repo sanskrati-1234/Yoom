@@ -20,11 +20,14 @@ import {
 import { LayoutList, Loader, Users } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import EndCallButton from "./EndCallButton";
+import ChatApp from "./ChatApp";
 type CallLayoutType = "speaker-left" | "speaker-right" | "grid";
+
 const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const [showParticipants, setShowparticipants] = useState(false);
   const searchParams = useSearchParams();
+  const [showChatApp, setShowChatApp] = useState(false);
   const router = useRouter();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
@@ -40,6 +43,10 @@ const MeetingRoom = () => {
       default:
         return <SpeakerLayout participantsBarPosition={"left"} />;
     }
+  };
+
+  const closeChatApp = () => {
+    setShowChatApp(false);
   };
 
   return (
@@ -58,8 +65,19 @@ const MeetingRoom = () => {
         >
           <CallParticipantsList onClose={() => setShowparticipants(false)} />
         </div>
+
+        <div
+          className={cn(
+            "h-[calc(100vh-86px)] w-[400px] ml-2 bg-dark-1 px-6 py-6 rounded-2xl top-4 right-4",
+            {
+              hidden: !showChatApp,
+            }
+          )}
+        >
+          <ChatApp closeChatApp={closeChatApp} />
+        </div>
       </div>
-      <div className="fixed bottom-0 flex w-full items-center justify-center gap-5">
+      <div className="fixed bottom-0 flex w-full items-center  justify-center gap-5">
         <CallControls onLeave={() => router.push("/")} />
         <DropdownMenu>
           <div className="flax items-center">
@@ -92,11 +110,17 @@ const MeetingRoom = () => {
         </DropdownMenu>
         <CallStatsButton />
         <button onClick={() => setShowparticipants((prev) => !prev)}>
-          <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
+          <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
             <Users size={20} className="text-white" />
           </div>
         </button>
         {!isPersonalRoom && <EndCallButton />}
+        <div
+          className="flex h-[20px] w-[20px] items-center"
+          onClick={() => setShowChatApp(!showChatApp)}
+        >
+          chat
+        </div>
       </div>
     </section>
   );
