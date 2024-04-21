@@ -65,7 +65,6 @@ const MeetingTypeListing = () => {
   };
 
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetails?.id}`;
-
   return (
     <>
       <div className="meeting-list-wrapper">

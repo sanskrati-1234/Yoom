@@ -4,7 +4,6 @@ type msgPropType = {
   message: string;
   time: string;
 };
-
 const ChatMessage = ({ userId, time, message }: msgPropType) => {
   return (
     <div>

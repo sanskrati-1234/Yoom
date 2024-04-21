@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils";
 import { Input } from "./ui/input";
 import { useSearch } from "@stream-io/video-react-sdk/dist/src/components/Search/hooks";
-import { X } from "lucide-react";
+import { SendHorizontal, X } from "lucide-react";
 import ChatMessage from "./ui/ChatMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import axios from "axios";
+import * as io from "socket.io-client";
 
 type data = {
   userId: string | undefined;
@@ -13,6 +15,9 @@ type data = {
   message: string;
   time: string;
 };
+const apibase = "http://localhost:8000";
+
+const socket = io.connect(apibase);
 const ChatApp = ({ closeChatApp }: { closeChatApp: () => void }) => {
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState<data[]>([]);
@@ -34,6 +39,7 @@ const ChatApp = ({ closeChatApp }: { closeChatApp: () => void }) => {
     return newTime;
   };
 
+  //function to send message
   const send = async () => {
     const sendData: data = {
       userId: userMail,
@@ -41,8 +47,28 @@ const ChatApp = ({ closeChatApp }: { closeChatApp: () => void }) => {
       message: message,
       time: getCurrentTime(),
     };
-    setMessageList([...messageList, sendData]);
+
+    await axios
+      .post(`${apibase}/chat`, sendData)
+      .then(() => {
+        socket.emit("send_message", { message: "Hello from client" });
+      })
+      .then(() => setMessageList([...messageList, sendData]));
   };
+
+  useEffect(() => {
+    socket.on("receive_message", () => {
+      console.log("useEffect");
+      axios
+        // @ts-ignore
+        .get(`${apibase}/chat/${id}`)
+        .then((response) =>
+          setMessageList((prev) => [...prev, ...response.data])
+        );
+    });
+  }, [socket]);
+
+  console.log("lkewmew72");
   return (
     <section className="size-full relative">
       <div
@@ -67,11 +93,19 @@ const ChatApp = ({ closeChatApp }: { closeChatApp: () => void }) => {
       </div>
       {/* input */}
       <div className="absolute bottom-0 left-0 w-full">
-        <Input
-          className="text-black w-full"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
+        <div className="relative">
+          <div
+            className="absolute top-[50%] right-[12px] translate-y-[-50%]"
+            onClick={send}
+          >
+            <SendHorizontal color="#000000" />
+          </div>
+          <Input
+            className="text-black w-full pr-[40px]"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+        </div>
         <div onClick={send}>send</div>
       </div>
     </section>
