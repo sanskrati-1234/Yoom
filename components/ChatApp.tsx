@@ -15,7 +15,7 @@ type data = {
   message: string;
   time: string;
 };
-const apibase = "http://localhost:8000";
+const apibase = "http://13.233.161.21:8000";
 
 const socket = io.connect(apibase);
 const ChatApp = ({ closeChatApp }: { closeChatApp: () => void }) => {
